@@ -3,6 +3,15 @@ const moviesController = require('./../Controllers/moviesControllers');
 
 const router = express.Router();
 
+//executes for those request which contains id parameter
+//middleware
+// router.param('id', (req, res, next, value) => {
+//     console.log('Movie id is ' + value);
+//     next();
+// })
+
+router.param('id', moviesController.checkId)
+
 router.route('/')
     .get(moviesController.getAllMovies)
     .post(moviesController.createMovie)
