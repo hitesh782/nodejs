@@ -4,8 +4,15 @@ const fs = require('fs');
 const app = express();
 let movies = JSON.parse(fs.readFileSync('./data/movies.json'));
 
+
+const logger = (req, res, next) => {
+    console.log('custom middleware called');
+    next();                    //must to call next method at end 
+}
+
 //for handling req.body (for json data)
 app.use(express.json());
+// app.use(logger);
 
 const getAllMovies = (req, res) => {
     res.status(200).json({
@@ -144,6 +151,9 @@ const deleteMovieById = (req, res) => {
 app.route('/api/v1/movies')
     .get(getAllMovies)
     .post(createMovie)
+
+app.use(logger); //if we put here then in above routes it will not called
+//as middlewares executes inorder they are declared
 
 app.route('/api/v1/movies/:id')
     .get(getMovieById)
