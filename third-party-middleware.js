@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
 
 const app = express();
 let movies = JSON.parse(fs.readFileSync('./data/movies.json'));
@@ -12,7 +13,12 @@ const logger = (req, res, next) => {
 
 //for handling req.body (for json data)
 app.use(express.json());
-// app.use(logger);
+app.use(morgan('dev'));
+app.use(logger);
+app.use((req, res, next) => {
+    req.requestAt = new Date().toISOString();
+    next();
+})
 
 const getAllMovies = (req, res) => {
     res.status(200).json({
@@ -147,24 +153,19 @@ const deleteMovieById = (req, res) => {
 // app.post('/api/v1/movies', createMovie)
 // app.delete('/api/v1/movies/:id', deleteMovieById)
 
-
-const movieRouter = express.Router();
-
 //further improvement
-movieRouter.route('/')
+app.route('/api/v1/movies')
     .get(getAllMovies)
     .post(createMovie)
 
 // app.use(logger); //if we put here then in above routes it will not called
 //as middlewares executes inorder they are declared
 
-movieRouter.route('/:id')
+app.route('/api/v1/movies/:id')
     .get(getMovieById)
     .patch(patchMovieById)
     .put(putMovieById)
     .delete(deleteMovieById)
-
-app.use('/api/v1/movies', movieRouter);
 
 
 const PORT = 5000;
