@@ -1,0 +1,54 @@
+cursor in mongodb:
+
+db.collection.find() method will returns first 20 data 
+and returns a pointer to next data
+and thats how all the data will be receive
+
+so this is called cursor
+
+to get all the data we have to use cursor methods
+
+1) db.collection.find().toArray() 
+   will give all the results it internally works on chunks
+   and gives all the data
+
+2) db.collection.find().forEach(function(cust){
+    print('customer name: "+cust.name)
+})
+
+db.collection.find().pretty()
+pretty method can only be called with cursor
+
+
+data types supported by mongodb:
+
+1) string 
+   can be in single or double quotes
+
+2) boolean
+   true of false
+
+3) number
+   NumberInt(Int32) , NumberLong(Int64), NumberDecimal
+   size is in bit
+   NumberDecimal is highly precision and has 34 bit after dot 
+
+4) ObjectID
+
+5) Date
+   ISODate => ISODate("2023-08-03")
+   TimeStamp => TimeStamp(1232536373)
+
+6) Embedded Documents
+
+7) Arrays
+
+ex. of insertOne function with use of this
+
+db.demo.insertOne({name:'hitesh',isAdmin:true,age:34,
+                   dob:new Date(),createdOn:new TimeStamp()})
+
+how to get datatype of value:
+  typeof db.demo.findOne().age   // number
+
+db.stats // stats about the data
