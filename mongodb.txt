@@ -52,3 +52,10 @@ how to get datatype of value:
   typeof db.demo.findOne().age   // number
 
 db.stats // stats about the data
+
+
+MVC architecture
+
+Model -> business logic
+controller -> application logic
+view -> presentation layer
